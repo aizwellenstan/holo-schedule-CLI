@@ -22,7 +22,16 @@ def main(options):
         eng_flag, tomorrow_flag, all_flag = option_check(options)
 
     #Fetch html file from https://schedule.hololive.tv/simple
-    source_html = fetch_source_html(tomorrow_flag)
+    #Check date
+    if tomorrow_flag:
+        month, date = get_tomorrow()
+
+    else:
+        month, date = get_now_time()
+
+    date = convert_time(month, date)
+
+    source_html = fetch_source_html(date)
     time_list, stream_members_list, stream_url_list = get_list(source_html, all_flag)
 
     if eng_flag:

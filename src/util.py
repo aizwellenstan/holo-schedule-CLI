@@ -4,7 +4,7 @@ import sys
 
 
 #Global
-OS_NAME = os.name
+global OS_NAME = os.name
 
 
 def clear():
@@ -20,11 +20,30 @@ def clear():
     os.system(command)
 
 
+def convert_time(month, date):
+
+    if month < 10:
+        month = '0' + str(month)
+
+    else:
+        month = str(month)
+
+    if date < 10:
+        date = '0' + str(date)
+
+    else:
+        date = str(date)
+
+    return '{}/{}'.format(month, date)
+
+
 def get_index_list(stream_members_list):
 
     JA_LIST = get_member_list()
     index_list = []
     length = len(stream_members_list)
+    print(stream_members_list)
+    print(JA_LIST)
 
     for i in range(length):
         index_list.append(JA_LIST.index(stream_members_list[i]))
@@ -40,7 +59,7 @@ def eval_argv(argv):
     special_options = ['--help', '--date']
 
     #Options that is available to use other non special option at the same time
-    non_special_options = ['--eng', '--tomorrow', '--all']
+    non_special_options = ['--eng', '--tomorrow', '--all'] 
 
     s_flag = 0
     n_flag = False
@@ -113,6 +132,18 @@ def get_tomorrow():
 
     month = tomorrow.month
     date = tomorrow.day
+
+    return (month, date)
+
+
+def get_yesterday():
+
+    #Get the tomorrow date in JST
+    JST = dt.timezone(dt.timedelta(hours=+9), 'JST')
+    yesterday = dt.datetime.now() + dt.timedelta(days = -1)
+
+    month = yesterday.month
+    date = yesterday.day
 
     return (month, date)
 
